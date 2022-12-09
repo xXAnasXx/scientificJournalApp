@@ -1,54 +1,25 @@
 package com.example.scientificjournalapp.entities;
 
-import model.enums.Status;
+
+import com.example.scientificjournalapp.enums.Status;
+import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+import lombok.ToString;
 
 import java.io.File;
 import java.util.List;
 
+@Entity
+@Data @NoArgsConstructor @AllArgsConstructor @ToString
 public class ArticleVersion {
-    private int versionID;
+    @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Integer versionID;
     private int submissionID;
     private File articleFile;
+    @OneToMany
     private List<Comment> comments;
     private Status status;
 
-    public int getVersionID() {
-        return versionID;
-    }
-
-    public void setVersionID(int versionID) {
-        this.versionID = versionID;
-    }
-
-    public int getSubmissionID() {
-        return submissionID;
-    }
-
-    public void setSubmissionID(int submissionID) {
-        this.submissionID = submissionID;
-    }
-
-    public File getArticleFile() {
-        return articleFile;
-    }
-
-    public void setArticleFile(File articleFile) {
-        this.articleFile = articleFile;
-    }
-
-    public List<Comment> getComments() {
-        return comments;
-    }
-
-    public void setComments(List<Comment> comments) {
-        this.comments = comments;
-    }
-
-    public Status getStatus() {
-        return status;
-    }
-
-    public void setStatus(Status status) {
-        this.status = status;
-    }
 }

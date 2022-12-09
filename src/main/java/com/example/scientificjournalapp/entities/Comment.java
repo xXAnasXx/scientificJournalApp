@@ -1,29 +1,18 @@
 package com.example.scientificjournalapp.entities;
 
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+import lombok.ToString;
+
+@Entity
+@Data @AllArgsConstructor @NoArgsConstructor @ToString
 public class Comment {
-    private int id;
+    @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Integer id;
     private String text;
-    private User reviewer;
-    public Comment() {
-    }
-
-    public Comment(String text) {
-        this.text = text;
-    }
-
-    public String getText() {
-        return text;
-    }
-
-    public void setText(String text) {
-        this.text = text;
-    }
-
-    public int getId() {
-        return id;
-    }
-
-    public User getReviewer() {
-        return reviewer;
-    }
 }
