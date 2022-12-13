@@ -2,12 +2,12 @@ package com.example.scientificjournalapp.entities;
 
 
 import com.example.scientificjournalapp.enums.Status;
-import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
 
+import javax.persistence.*;
 import java.io.File;
 import java.util.List;
 
