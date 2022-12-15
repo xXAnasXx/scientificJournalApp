@@ -10,14 +10,17 @@ import org.springframework.web.bind.annotation.GetMapping;
 import java.util.List;
 
 @Controller
-public class ArticleController {
+public class SubmissionController {
     @Autowired
     private SubmissionRepository submissionRepository;
 
-    @GetMapping(path = "displaySubmissions")
+    @GetMapping(path = "/displaySubmissions")
     public String listSubmissions(Model model){
         List<Submission> submissionList;
         submissionList = submissionRepository.findAll();
+        for(Submission s : submissionList){
+            System.out.println(s);
+        }
         model.addAttribute("submissions",submissionList);
         return "views/submissionsView";
     }

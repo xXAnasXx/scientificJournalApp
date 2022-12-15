@@ -25,10 +25,10 @@
             <a class="nav-link active text-white" aria-current="page" href="#">Home</a>
           </li>
           <li class="nav-item text-center">
-            <a class="nav-link text-white" href="#">Categories</a>
+            <a class="nav-link text-white" th:href="@{displayCategories}">Categories</a>
           </li>
           <li class="nav-item text-center">
-            <a class="nav-link text-white" href="#">Articles</a>
+            <a class="nav-link text-white" th:href="@{displaySubmissions}">Articles Submitted</a>
           </li>
           <li class="nav-item text-center">
             <a class="nav-link text-white" href="#">Edit Profile</a>
@@ -48,11 +48,21 @@
         <table class="table table-bordered">
           <tr>
             <th>Id</th>
-            <th>Name</th>
+            <th>Article Category Name</th>
+            <th>Version Id of Article</th>
+            <th>Author Lastname</th>
+            <th>Submission Phase</th>
+            <th>Id of committy</th>
+            <th>Date</th>
           </tr>
-          <tr th:each="c:${categories}">
-            <td th:text="${c.id}"></td>
-            <td th:text="${c.name}"></td>
+          <tr th:each="s:${submissions}">
+            <td th:text="${s.submissionId}"></td>
+            <td th:text="${s.articleCategory.name}"></td>
+            <td th:text="${s.article.versionID}"></td>
+            <td th:text="${s.author.lastName}"></td>
+            <td th:text="${s.submissionPhase}"></td>
+            <td th:text="${s.committy.id}"></td>
+            <td th:text="${s.date}"></td>
           </tr>
         </table>
       </div>

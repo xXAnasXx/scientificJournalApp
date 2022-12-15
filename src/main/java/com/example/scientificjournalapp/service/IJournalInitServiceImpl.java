@@ -7,6 +7,7 @@ import com.example.scientificjournalapp.enums.SubmissionPhase;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import javax.transaction.Transactional;
 import java.io.File;
 import java.net.URISyntaxException;
 import java.util.ArrayList;
@@ -15,6 +16,7 @@ import java.util.List;
 import java.util.stream.Stream;
 
 @Service
+@Transactional
 public class IJournalInitServiceImpl implements IJournalInitService{
 
     @Autowired
@@ -33,6 +35,8 @@ public class IJournalInitServiceImpl implements IJournalInitService{
     @Autowired
     private CommityRepository committyRepository;
 
+    @Autowired
+    private SubmissionRepository submissionRepository;
     @Override
     public void initArticleVersions() throws URISyntaxException {
         ArticleVersion articleVersion1 = new ArticleVersion();
@@ -41,7 +45,7 @@ public class IJournalInitServiceImpl implements IJournalInitService{
         commentList.add(commentRepository.findById(2).get());
         articleVersion1.setStatus(Status.ACCEPTED);
         articleVersion1.setComments(commentList);
-        articleVersion1.setArticleFile(new File(getClass().getResource("articles/A_Study_on_the_Role_of_Software_Architecture_in_the_Evolution_and_Quality_of_Software.pdf").toURI()));
+//        articleVersion1.setArticleFile(new File(getClass().getResource("articles/A_Study_on_the_Role_of_Software_Architecture_in_the_Evolution_and_Quality_of_Software.pdf").toURI()));
 
         ArticleVersion articleVersion2 = new ArticleVersion();
         List<Comment> commentList2 = new ArrayList<>();
@@ -49,7 +53,7 @@ public class IJournalInitServiceImpl implements IJournalInitService{
         commentList2.add(commentRepository.findById(2).get());
         articleVersion1.setStatus(Status.ACCEPTED_MINOR_COMMENTS);
         articleVersion1.setComments(commentList2);
-        articleVersion1.setArticleFile(new File(getClass().getResource("Using_Software_Metrics_for_Predicting_Vulnerable_Code-Components_A_Study_on_Java_and_Python_Open_Source_Projects.pdf").toURI()));
+//        articleVersion1.setArticleFile(new File(getClass().getResource("Using_Software_Metrics_for_Predicting_Vulnerable_Code-Components_A_Study_on_Java_and_Python_Open_Source_Projects.pdf").toURI()));
 
         articleVersionRepository.save(articleVersion1);
         articleVersionRepository.save(articleVersion2);
@@ -134,6 +138,7 @@ public class IJournalInitServiceImpl implements IJournalInitService{
         submission1.setSubmissionPhase(SubmissionPhase.REVIEW);
         submission1.setCommitty(committyRepository.findById(1).get());
         submission1.setDate(new Date());
+        submissionRepository.save(submission1);
 
         Submission submission2 = new Submission();
         submission2.setArticleCategory(articleCategoryRepository.findById(2).get());
@@ -142,5 +147,7 @@ public class IJournalInitServiceImpl implements IJournalInitService{
         submission2.setSubmissionPhase(SubmissionPhase.REVIEW);
         submission2.setCommitty(committyRepository.findById(2).get());
         submission2.setDate(new Date());
+        submissionRepository.save(submission2);
+
     }
 }
