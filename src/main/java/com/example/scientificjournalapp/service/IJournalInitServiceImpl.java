@@ -1,12 +1,17 @@
 package com.example.scientificjournalapp.service;
 
-import com.example.scientificjournalapp.dao.AuthorRepository;
-import com.example.scientificjournalapp.dao.ArticleCategoryRepository;
-import com.example.scientificjournalapp.entities.Author;
-import com.example.scientificjournalapp.entities.ArticleCategory;
+import com.example.scientificjournalapp.dao.*;
+import com.example.scientificjournalapp.entities.*;
+import com.example.scientificjournalapp.enums.Status;
+import com.example.scientificjournalapp.enums.SubmissionPhase;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.io.File;
+import java.net.URISyntaxException;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
 import java.util.stream.Stream;
 
 @Service
@@ -16,10 +21,38 @@ public class IJournalInitServiceImpl implements IJournalInitService{
     private ArticleCategoryRepository articleCategoryRepository;
     @Autowired
     private AuthorRepository authorRepository;
+    @Autowired
+    private ReviewerRepository reviewerRepository;
+
+    @Autowired
+    private CommentRepository commentRepository;
+
+    @Autowired
+    private ArticleVersionRepository articleVersionRepository;
+
+    @Autowired
+    private CommityRepository committyRepository;
 
     @Override
-    public void initArticleVersions() {
+    public void initArticleVersions() throws URISyntaxException {
+        ArticleVersion articleVersion1 = new ArticleVersion();
+        List<Comment> commentList = new ArrayList<>();
+        commentList.add(commentRepository.findById(1).get());
+        commentList.add(commentRepository.findById(2).get());
+        articleVersion1.setStatus(Status.ACCEPTED);
+        articleVersion1.setComments(commentList);
+        articleVersion1.setArticleFile(new File(getClass().getResource("articles/A_Study_on_the_Role_of_Software_Architecture_in_the_Evolution_and_Quality_of_Software.pdf").toURI()));
 
+        ArticleVersion articleVersion2 = new ArticleVersion();
+        List<Comment> commentList2 = new ArrayList<>();
+        commentList2.add(commentRepository.findById(1).get());
+        commentList2.add(commentRepository.findById(2).get());
+        articleVersion1.setStatus(Status.ACCEPTED_MINOR_COMMENTS);
+        articleVersion1.setComments(commentList2);
+        articleVersion1.setArticleFile(new File(getClass().getResource("Using_Software_Metrics_for_Predicting_Vulnerable_Code-Components_A_Study_on_Java_and_Python_Open_Source_Projects.pdf").toURI()));
+
+        articleVersionRepository.save(articleVersion1);
+        articleVersionRepository.save(articleVersion2);
     }
 
     @Override
@@ -55,21 +88,59 @@ public class IJournalInitServiceImpl implements IJournalInitService{
 
     @Override
     public void initComments() {
-
+        Stream.of("Comment 01", "Comment 02", "Comment 03").
+                forEach(a -> {
+                    Comment cm = new Comment();
+                    cm.setText(a);
+                    commentRepository.save(cm);
+                });
     }
 
     @Override
     public void initCommittees() {
+        Committy committy1 = new Committy();
+        List<Reviewer> reviewerList = new ArrayList<>();
+        reviewerList.add(reviewerRepository.findById(1).get());
+        reviewerList.add(reviewerRepository.findById(3).get());
+        committy1.setReviewers(reviewerList);
+        committyRepository.save(committy1);
 
+        Committy committy2 = new Committy();
+        List<Reviewer> reviewerList2 = new ArrayList<>();
+        reviewerList2.add(reviewerRepository.findById(2).get());
+        reviewerList2.add(reviewerRepository.findById(4).get());
+        reviewerList2.add(reviewerRepository.findById(7).get());
+        reviewerList2.add(reviewerRepository.findById(8).get());
+        committy2.setReviewers(reviewerList2);
+        committyRepository.save(committy2);
     }
 
     @Override
     public void initReviewers() {
-
+        Stream.of("Reviewer 01", "Reviewer 02", "Reviewer 03", "Reviewer 04", "Reviewer 05", "Reviewer 06","Reviewer 07","Reviewer 08").
+                forEach(s -> {
+                    Reviewer r = new Reviewer();
+                    r.setNameReviewer(s);
+                    reviewerRepository.save(r);
+                });
     }
 
     @Override
     public void initSubmissions() {
+        Submission submission1 = new Submission();
+        submission1.setArticleCategory(articleCategoryRepository.findById(2).get());
+        submission1.setArticle(articleVersionRepository.findById(1).get());
+        submission1.setAuthor(authorRepository.findById(1).get());
+        submission1.setSubmissionPhase(SubmissionPhase.REVIEW);
+        submission1.setCommitty(committyRepository.findById(1).get());
+        submission1.setDate(new Date());
 
+        Submission submission2 = new Submission();
+        submission2.setArticleCategory(articleCategoryRepository.findById(2).get());
+        submission2.setArticle(articleVersionRepository.findById(2).get());
+        submission2.setAuthor(authorRepository.findById(2).get());
+        submission2.setSubmissionPhase(SubmissionPhase.REVIEW);
+        submission2.setCommitty(committyRepository.findById(2).get());
+        submission2.setDate(new Date());
     }
 }

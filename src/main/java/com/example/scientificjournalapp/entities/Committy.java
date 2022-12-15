@@ -15,6 +15,6 @@ public class Committy {
     private Integer id;
     @OneToMany
     private List<Reviewer> reviewers;
-    private Integer submissionId;
+//    private Integer submissionId;
 
 }

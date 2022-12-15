@@ -16,7 +16,7 @@ import java.util.List;
 public class ArticleVersion {
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer versionID;
-    private int submissionID;
+//    private int submissionID;
     private File articleFile;
     @OneToMany
     private List<Comment> comments;

@@ -17,7 +17,13 @@ public class ScientificJournalAppApplication implements CommandLineRunner {
 
     @Override
     public void run(String... args) throws Exception {
+        journalInitService.initReviewers();
+        journalInitService.initComments();
         journalInitService.initCategories();
         journalInitService.initAuthors();
+
+//        journalInitService.initCommittees();
+//        journalInitService.initArticleVersions();
+//        journalInitService.initSubmissions();
     }
 }
