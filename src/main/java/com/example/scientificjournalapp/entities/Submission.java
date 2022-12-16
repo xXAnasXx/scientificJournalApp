@@ -17,7 +17,7 @@ public class Submission {
     private Integer submissionId;
     @ManyToOne
     private ArticleCategory articleCategory;
-    @OneToOne
+    @OneToOne(cascade = {CascadeType.ALL})
     private ArticleVersion article;
     @ManyToOne
     private Author author;

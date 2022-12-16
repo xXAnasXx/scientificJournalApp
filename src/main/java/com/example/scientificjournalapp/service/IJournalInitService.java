@@ -1,9 +1,10 @@
 package com.example.scientificjournalapp.service;
 
+import java.io.IOException;
 import java.net.URISyntaxException;
 
 public interface IJournalInitService {
-    public void initArticleVersions() throws URISyntaxException;
+    public void initArticleVersions() throws URISyntaxException, IOException;
     public void initAuthors();
     public void initCategories();
     public void initComments();

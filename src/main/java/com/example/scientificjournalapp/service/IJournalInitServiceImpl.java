@@ -5,10 +5,12 @@ import com.example.scientificjournalapp.entities.*;
 import com.example.scientificjournalapp.enums.Status;
 import com.example.scientificjournalapp.enums.SubmissionPhase;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.io.ClassPathResource;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
 import java.io.File;
+import java.io.IOException;
 import java.net.URISyntaxException;
 import java.util.ArrayList;
 import java.util.Date;
@@ -38,22 +40,25 @@ public class IJournalInitServiceImpl implements IJournalInitService{
     @Autowired
     private SubmissionRepository submissionRepository;
     @Override
-    public void initArticleVersions() throws URISyntaxException {
+    public void initArticleVersions() throws IOException {
         ArticleVersion articleVersion1 = new ArticleVersion();
         List<Comment> commentList = new ArrayList<>();
         commentList.add(commentRepository.findById(1).get());
         commentList.add(commentRepository.findById(2).get());
         articleVersion1.setStatus(Status.ACCEPTED);
         articleVersion1.setComments(commentList);
-//        articleVersion1.setArticleFile(new File(getClass().getResource("articles/A_Study_on_the_Role_of_Software_Architecture_in_the_Evolution_and_Quality_of_Software.pdf").toURI()));
+        File resource = new ClassPathResource(
+                "articles/A_Study_on_the_Role_of_Software_Architecture_in_the_Evolution_and_Quality_of_Software.pdf").getFile();
+        articleVersion1.setArticleFile(resource);
+//        System.out.println(articleVersion1.getArticleFile().getName());
 
         ArticleVersion articleVersion2 = new ArticleVersion();
         List<Comment> commentList2 = new ArrayList<>();
-        commentList2.add(commentRepository.findById(1).get());
-        commentList2.add(commentRepository.findById(2).get());
-        articleVersion1.setStatus(Status.ACCEPTED_MINOR_COMMENTS);
-        articleVersion1.setComments(commentList2);
-//        articleVersion1.setArticleFile(new File(getClass().getResource("Using_Software_Metrics_for_Predicting_Vulnerable_Code-Components_A_Study_on_Java_and_Python_Open_Source_Projects.pdf").toURI()));
+        commentList2.add(commentRepository.findById(3).get());
+        articleVersion2.setStatus(Status.ACCEPTED_MINOR_COMMENTS);
+        articleVersion2.setComments(commentList2);
+        File resource2 = new ClassPathResource("articles/Using_Software_Metrics_for_Predicting_Vulnerable_Code-Components_A_Study_on_Java_and_Python_Open_Source_Projects.pdf").getFile();
+        articleVersion2.setArticleFile(resource2);
 
         articleVersionRepository.save(articleVersion1);
         articleVersionRepository.save(articleVersion2);
