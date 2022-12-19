@@ -1,4 +1,4 @@
-package com.example.scientificjournalapp.service;
+package com.example.scientificjournalapp.serviceInit;
 
 import java.io.IOException;
 import java.net.URISyntaxException;

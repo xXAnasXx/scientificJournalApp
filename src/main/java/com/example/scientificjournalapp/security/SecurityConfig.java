@@ -25,6 +25,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
          auth.inMemoryAuthentication().withUser("user1").password(passwordEncoder.
          encode("1234")).roles("USER"); // by default it doesn't work 1234 as mdp not encrypted
          auth.inMemoryAuthentication().withUser("user2").password(passwordEncoder.encode("1234")).roles("USER");
+         auth.inMemoryAuthentication().withUser("eval1").password(passwordEncoder.encode("e1234")).roles("USER","EVAL");
          auth.inMemoryAuthentication().withUser("admin").password(passwordEncoder.
          encode("12345")).roles("USER","ADMIN");
 //        auth.jdbcAuthentication()

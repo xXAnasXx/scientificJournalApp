@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeLeaf.org">
+<head>
+  <meta charset="UTF-8">
+  <title>Article submissions</title>
+  <link rel="stylesheet" type="text/css" th:href="@{/webjars/bootstrap/css/bootstrap.min.css}" />
+  <script type="text/javascript" th:src="@{/webjars/jquery/jquery.min.js}"></script>
+  <script type="text/javascript" th:src="@{/webjars/bootstrap/js/bootstrap.min.js}"></script>
+  <script type="text/javascript" th:src="@{/webjars/popper/popper.min.js}"></script>
+  <link rel="stylesheet"
+        href="../static/plugins/fontawesome-free/css/all.min.css"
+        th:href="@{/plugins/fontawesome-free/css/all.min.css}">
+</head>
+
+<body>
+  <div class="container">
+    <div class="card">
+      <div class="card-header  content" >Form of status edit</div>
+      <div class="card-body">
+        <form th:action="@{saveSubmissionEval}" th:object="${submission}" method="post" enctype="multipart/form-data">
+          <div class="form-group" th:if="${mode=='edit'}" >
+            <label class="control-label">ID Submission:</label>
+            <input type="text" name="id" class="form-control" th:field="*{submissionId}">
+          </div>
+          <div class="form-group">
+            <label class="control-label">Status : </label>
+            <select th:name="statut" th:value="${statut}">
+              <option th:if="${mode == 'new'}" th:each="s:${status}" th:text="${s}">
+              </option>
+              <option th:if="${mode == 'edit'}" th:each="s:${status}" th:text="${s}"
+                      th:selected="${s.equals(submission.article.status)}">
+              </option>
+            </select>
+            <!-- <span th:errors="${film.name}" class="text-danger"></span> -->
+          </div>
+            <!-- <span th:errors="${film.name}" class="text-danger"></span> -->
+          <button class="btn btn-success" type="submit">Save</button>
+          <a class="btn btn-secondary" th:href="@{displaySubmissions}">Retour</a>
+        </form>
+      </div>
+
+    </div>
+
+  </div>
+
+
+
+</body>
+</html>

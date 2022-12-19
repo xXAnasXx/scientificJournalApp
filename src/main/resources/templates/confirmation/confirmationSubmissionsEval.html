@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeLeaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Article Submissions</title>
+    <link rel="stylesheet" type="text/css" th:href="@{/webjars/bootstrap/css/bootstrap.min.css}" />
+    <script type="text/javascript" th:src="@{/webjars/jquery/jquery.min.js}"></script>
+    <script type="text/javascript" th:src="@{/webjars/bootstrap/js/bootstrap.min.js}"></script>
+    <script type="text/javascript" th:src="@{/webjars/popper/popper.min.js}"></script>
+    <link rel="stylesheet"
+          href="../static/plugins/fontawesome-free/css/all.min.css"
+          th:href="@{/plugins/fontawesome-free/css/all.min.css}">
+</head>
+<body>
+    <div class="container">
+        <div class="card">
+            <div class="card-header content">Enregistré avec succès<i class="fa fa-check text-success" style="margin-left: 20px"></i></div>
+            <div class="card-body">
+
+                <div class="form-group">
+                    <label class="control-label">Submission Id :</label>
+                    <strong><label  th:text="${submission.submissionId}"></label></strong>
+
+                </div>
+                <div class="form-group">
+                    <label class="control-label">ArticleCategory Name :</label>
+                    <strong><label  th:text="${fileName}"></label></strong>
+
+                </div>
+                <div class="form-group">
+                    <label class="control-label">Article version ID :</label>
+                    <strong><label  th:text="${submission.article.versionID}"></label></strong>
+
+                </div>
+                <div class="form-group">
+                    <label class="control-label">Article FileName :</label>
+                    <strong><label  th:text="${submission.article.versionID}"></label></strong>
+
+                </div>
+                <div class="form-group">
+                    <label class="control-label">Author lastName :</label>
+                    <strong><label  th:text="${submission.author.lastName}"></label></strong>
+
+                </div>
+                <div class="form-group">
+                    <label class="control-label">Submission Phase :</label>
+                    <strong><label  th:text="${submission.submissionPhase}"></label></strong>
+
+                </div>
+                <div class="form-group">
+                    <label class="control-label">Committy id :</label>
+                    <strong><label  th:text="${submission.committy.id}"></label></strong>
+
+                </div>
+                <div class="form-group">
+                    <label class="control-label">Date  :</label>
+                    <strong><label  th:text="${submission.date}"></label></strong>
+
+                </div>
+                <a class="btn btn-success" th:href="@{displaySubmissions}">Retour</a>
+                <a class="btn btn-warning" th:href="@{formSubmissions}">Ajouter</a>
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+
+</body>
+</html>

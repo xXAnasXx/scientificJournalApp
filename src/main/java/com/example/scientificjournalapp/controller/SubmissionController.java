@@ -2,6 +2,7 @@ package com.example.scientificjournalapp.controller;
 
 import com.example.scientificjournalapp.dao.*;
 import com.example.scientificjournalapp.entities.*;
+import com.example.scientificjournalapp.enums.Status;
 import com.example.scientificjournalapp.enums.SubmissionPhase;
 import com.example.scientificjournalapp.utils.FileConverter;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -107,11 +108,11 @@ public class SubmissionController {
         return "forms/formSubmissions";
     }
     @PostMapping(path="/saveSubmission")
-    public String saveCompte(@RequestParam("file") MultipartFile file, @ModelAttribute("nomCategory")String nomCategory,
-                             @ModelAttribute("idArticle")String idArticle,
-                             @ModelAttribute("nomAuthor")String nomAuthor,
-                             @ModelAttribute("idCommitte")String idCommitte,
-                             Submission submission, BindingResult bindingResult, RedirectAttributes attributes, Model model) throws IOException {
+    public String saveSubmission(@RequestParam("file") MultipartFile file, @ModelAttribute("nomCategory")String nomCategory,
+                                 @ModelAttribute("idArticle")String idArticle,
+                                 @ModelAttribute("nomAuthor")String nomAuthor,
+                                 @ModelAttribute("idCommitte")String idCommitte,
+                                 Submission submission, BindingResult bindingResult, RedirectAttributes attributes, Model model) throws IOException {
         if(bindingResult.hasErrors()) {return "forms/formSubmissions";}
         if (file.isEmpty()) {
             attributes.addFlashAttribute("message", "Please select a file to upload.");
@@ -159,37 +160,49 @@ public class SubmissionController {
         model.addAttribute("fileName", submission.getArticle().getArticleFile().getName());
         return "confirmation/confirmationSubmissions";
     }
-//
-//    @GetMapping(path="/editCompte")
-//    public String editCompte(Model model, Long id) {
-//        Compte compte = compteRepository.findById(id).get();
-//        //getting societes
-//        List<Societe> societes = societeRepository.findAll();
-//        List<String> nomSocietes = societes.stream()
-//                .map(Societe::getNom)
-//                .collect(Collectors.toList());
-//        // getting devises
-//        List<Devise> devises = deviseRepository.findAll();
-//        List<String> codeDevises = devises.stream()
-//                .map(Devise::getCode)
-//                .collect(Collectors.toList());
-//
-//        List<Agence> agences = agenceRepository.findAll();
-//        List<String> nomAgences = agences.stream()
-//                .map(Agence::getNom)
-//                .collect(Collectors.toList());
-//
-//        List<Banque> banques = banqueRepository.findAll();
-//        List<String> nomBanques = banques.stream()
-//                .map(Banque::getNom)
-//                .collect(Collectors.toList());
-//        model.addAttribute("nomBanques",nomBanques);
-//        model.addAttribute("nomAgences",nomAgences);
-//        model.addAttribute("nomSocietes",nomSocietes);
-//        model.addAttribute("codeDevises",codeDevises);
-//        model.addAttribute("compte", compte);
-//        model.addAttribute("dateError", "Date invalide");
-//        model.addAttribute("mode", "edit");
-//        return "forms/formComptes";
-//    }
+
+    @GetMapping(path="/editSubmission")
+    public String editSubmission(Model model, Integer id) {
+        Submission submission = submissionRepository.findById(id).get();
+
+        List<ArticleCategory> articleCategoryList = articleCategoryRepository.findAll();
+        List<String> nomCategories = articleCategoryList.stream()
+                .map(ArticleCategory::getName)
+                .collect(Collectors.toList());
+
+        List<Author> authorsList = authorRepository.findAll();
+        List<String> nomAuthors = authorsList.stream()
+                .map(Author::getLastName)
+                .collect(Collectors.toList());
+
+        model.addAttribute("nomCategories",nomCategories);
+        model.addAttribute("nomAuthors",nomAuthors);
+        model.addAttribute("submission", submission);
+        model.addAttribute("dateError", "Date invalide");
+        model.addAttribute("mode", "edit");
+        return "forms/formSubmissions";
+    }
+    @GetMapping(path="/editSubmissionEval")
+    public String editSubmissionEval(Model model, Integer id) {
+        Submission submission = submissionRepository.findById(id).get();
+        List<String> status = new ArrayList<>();
+        for(Status s : Status.values()){
+            status.add(s.toString());
+        }
+        model.addAttribute("submission", submission);
+        model.addAttribute("status", status);
+        model.addAttribute("mode", "edit");
+        return "forms/formSubmissionsEval";
+    }
+    @PostMapping(path="/saveSubmissionEval")
+    public String saveSubmissionEval(@ModelAttribute("statut")String statut,
+                                 Submission submission, BindingResult bindingResult) throws IOException {
+        if(bindingResult.hasErrors()) {return "forms/formSubmissionsEval";}
+        ArticleVersion articleVersion = submission.getArticle();
+        articleVersion.setStatus(Status.valueOf(statut));
+        submission.setArticle(articleVersion);
+        submission.setSubmissionPhase(SubmissionPhase.CAMERA_READY);
+        submissionRepository.save(submission);
+        return "confirmation/confirmationSubmissions";
+    }
 }

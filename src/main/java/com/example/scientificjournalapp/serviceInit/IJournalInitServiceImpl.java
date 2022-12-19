@@ -1,4 +1,4 @@
-package com.example.scientificjournalapp.service;
+package com.example.scientificjournalapp.serviceInit;
 
 import com.example.scientificjournalapp.dao.*;
 import com.example.scientificjournalapp.entities.*;
@@ -11,7 +11,6 @@ import org.springframework.stereotype.Service;
 import javax.transaction.Transactional;
 import java.io.File;
 import java.io.IOException;
-import java.net.URISyntaxException;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;

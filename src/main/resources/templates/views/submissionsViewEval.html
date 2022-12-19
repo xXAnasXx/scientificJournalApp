@@ -1,6 +1,5 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeLeaf.org"
-      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<html xmlns:th="http://www.thymeLeaf.org">
 <head>
   <meta charset="UTF-8">
   <title>ArticleCategories</title>
@@ -46,16 +45,6 @@
     <div class="card">
       <div class="card-header content bg-primary text-white">Article Submissions List</div>
       <div class="card-body">
-        <div>
-          <form method="get" th:action="@{formSubmissions}">
-            <div class="form-group">
-              <span class="text-muted">Add Submission</span>
-              <button type="submit" class="btn btn-outline-primary" style="color: black; margin-left: 10px">
-                <span class="fa fa-plus" style="font-size: 20px;"></span>
-              </button>
-            </div>
-          </form>
-        </div>
         <table class="table table-bordered">
           <tr>
             <th>Id</th>
@@ -65,7 +54,7 @@
             <th>Submission Phase</th>
             <th>Id of committy</th>
             <th>Date</th>
-            <th sec:authorize="hasRole('EVAL')">Edit status</th>
+            <th>Edit status</th>
           </tr>
           <tr th:each="s:${submissions}">
             <td th:text="${s.submissionId}"></td>
@@ -75,14 +64,7 @@
             <td th:text="${s.submissionPhase}"></td>
             <td th:text="${s.committy.id}"></td>
             <td th:text="${s.date}"></td>
-            <td sec:authorize="!hasRole('EVAL')">
-              <a
-                      th:href="@{editSubmission(id=${s.submissionId})}"
-                      class="btn btn-warning">
-                <span class="fas fa-edit" style="font-size: 20px;"></span>
-              </a>
-            </td>
-            <td sec:authorize="hasRole('EVAL')">
+            <td>
               <a
                       th:href="@{editSubmissionEval(id=${s.submissionId})}"
                       class="btn btn-warning">

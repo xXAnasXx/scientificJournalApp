@@ -1,6 +1,6 @@
 package com.example.scientificjournalapp;
 
-import com.example.scientificjournalapp.service.IJournalInitService;
+import com.example.scientificjournalapp.serviceInit.IJournalInitService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
